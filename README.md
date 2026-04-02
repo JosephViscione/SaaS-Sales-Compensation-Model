@@ -1,4 +1,4 @@
-README.md 
+README
 
 # Veltora Inc. — Sales Compensation Model · FY 2025
 
