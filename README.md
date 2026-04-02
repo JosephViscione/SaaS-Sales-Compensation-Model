@@ -1,4 +1,4 @@
-=== README.md ===
+README.md 
 
 # Veltora Inc. — Sales Compensation Model · FY 2025
 
