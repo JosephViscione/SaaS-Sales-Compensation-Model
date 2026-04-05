@@ -1,0 +1,183 @@
+Lookup Key,Rep ID,Rep Name,Month #,Month,Segment,Role,Monthly Quota,Actual Performance,Attainment %,vs Quota ($)
+R00201,R002,Marcus Williams,1,Jan,Enterprise,SDR,8,9,112.50%,1
+R00202,R002,Marcus Williams,2,Feb,Enterprise,SDR,8,8,100.00%,0
+R00203,R002,Marcus Williams,3,Mar,Enterprise,SDR,8,9,112.50%,1
+R00204,R002,Marcus Williams,4,Apr,Enterprise,SDR,8,7,87.50%,-1
+R00205,R002,Marcus Williams,5,May,Enterprise,SDR,8,8,100.00%,0
+R00206,R002,Marcus Williams,6,Jun,Enterprise,SDR,8,7,87.50%,-1
+R00207,R002,Marcus Williams,7,Jul,Enterprise,SDR,8,5,62.50%,-3
+R00208,R002,Marcus Williams,8,Aug,Enterprise,SDR,8,4,50.00%,-4
+R00209,R002,Marcus Williams,9,Sep,Enterprise,SDR,8,6,75.00%,-2
+R00210,R002,Marcus Williams,10,Oct,Enterprise,SDR,8,5,62.50%,-3
+R00211,R002,Marcus Williams,11,Nov,Enterprise,SDR,8,6,75.00%,-2
+R00212,R002,Marcus Williams,12,Dec,Enterprise,SDR,8,7,87.50%,-1
+R00301,R003,James Harrington,1,Jan,Enterprise,AE,"$75,000 ","$95,000 ",126.70%,"$20,000 "
+R00302,R003,James Harrington,2,Feb,Enterprise,AE,"$75,000 ","$88,000 ",117.30%,"$13,000 "
+R00303,R003,James Harrington,3,Mar,Enterprise,AE,"$75,000 ","$105,000 ",140.00%,"$30,000 "
+R00304,R003,James Harrington,4,Apr,Enterprise,AE,"$75,000 ","$82,000 ",109.30%,"$7,000 "
+R00305,R003,James Harrington,5,May,Enterprise,AE,"$75,000 ","$79,000 ",105.30%,"$4,000 "
+R00306,R003,James Harrington,6,Jun,Enterprise,AE,"$75,000 ","$86,000 ",114.70%,"$11,000 "
+R00307,R003,James Harrington,7,Jul,Enterprise,AE,"$75,000 ","$65,000 ",86.70%,"($10,000)"
+R00308,R003,James Harrington,8,Aug,Enterprise,AE,"$75,000 ","$58,000 ",77.30%,"($17,000)"
+R00309,R003,James Harrington,9,Sep,Enterprise,AE,"$75,000 ","$70,000 ",93.30%,"($5,000)"
+R00310,R003,James Harrington,10,Oct,Enterprise,AE,"$75,000 ","$55,000 ",73.30%,"($20,000)"
+R00311,R003,James Harrington,11,Nov,Enterprise,AE,"$75,000 ","$62,000 ",82.70%,"($13,000)"
+R00312,R003,James Harrington,12,Dec,Enterprise,AE,"$75,000 ","$78,000 ",104.00%,"$3,000 "
+R00401,R004,Olivia Brooks,1,Jan,Enterprise,AE,"$75,000 ","$102,000 ",136.00%,"$27,000 "
+R00402,R004,Olivia Brooks,2,Feb,Enterprise,AE,"$75,000 ","$95,000 ",126.70%,"$20,000 "
+R00403,R004,Olivia Brooks,3,Mar,Enterprise,AE,"$75,000 ","$115,000 ",153.30%,"$40,000 "
+R00404,R004,Olivia Brooks,4,Apr,Enterprise,AE,"$75,000 ","$88,000 ",117.30%,"$13,000 "
+R00405,R004,Olivia Brooks,5,May,Enterprise,AE,"$75,000 ","$92,000 ",122.70%,"$17,000 "
+R00406,R004,Olivia Brooks,6,Jun,Enterprise,AE,"$75,000 ","$85,000 ",113.30%,"$10,000 "
+R00407,R004,Olivia Brooks,7,Jul,Enterprise,AE,"$75,000 ","$72,000 ",96.00%,"($3,000)"
+R00408,R004,Olivia Brooks,8,Aug,Enterprise,AE,"$75,000 ","$65,000 ",86.70%,"($10,000)"
+R00409,R004,Olivia Brooks,9,Sep,Enterprise,AE,"$75,000 ","$78,000 ",104.00%,"$3,000 "
+R00410,R004,Olivia Brooks,10,Oct,Enterprise,AE,"$75,000 ","$62,000 ",82.70%,"($13,000)"
+R00411,R004,Olivia Brooks,11,Nov,Enterprise,AE,"$75,000 ","$70,000 ",93.30%,"($5,000)"
+R00412,R004,Olivia Brooks,12,Dec,Enterprise,AE,"$75,000 ","$85,000 ",113.30%,"$10,000 "
+R00501,R005,David Kim,1,Jan,Enterprise,CSM,"$40,000 ","$52,000 ",130.00%,"$12,000 "
+R00502,R005,David Kim,2,Feb,Enterprise,CSM,"$40,000 ","$48,000 ",120.00%,"$8,000 "
+R00503,R005,David Kim,3,Mar,Enterprise,CSM,"$40,000 ","$58,000 ",145.00%,"$18,000 "
+R00504,R005,David Kim,4,Apr,Enterprise,CSM,"$40,000 ","$44,000 ",110.00%,"$4,000 "
+R00505,R005,David Kim,5,May,Enterprise,CSM,"$40,000 ","$42,000 ",105.00%,"$2,000 "
+R00506,R005,David Kim,6,Jun,Enterprise,CSM,"$40,000 ","$46,000 ",115.00%,"$6,000 "
+R00507,R005,David Kim,7,Jul,Enterprise,CSM,"$40,000 ","$35,000 ",87.50%,"($5,000)"
+R00508,R005,David Kim,8,Aug,Enterprise,CSM,"$40,000 ","$30,000 ",75.00%,"($10,000)"
+R00509,R005,David Kim,9,Sep,Enterprise,CSM,"$40,000 ","$38,000 ",95.00%,"($2,000)"
+R00610,R006,Lisa Park,10,Oct,Enterprise,CSM,"$16,000 ","$10,000 ",62.50%,"($6,000)"
+R00611,R006,Lisa Park,11,Nov,Enterprise,CSM,"$28,000 ","$12,000 ",42.90%,"($16,000)"
+R00612,R006,Lisa Park,12,Dec,Enterprise,CSM,"$40,000 ","$15,000 ",37.50%,"($25,000)"
+R00801,R008,Kevin O'Brien,1,Jan,Mid-Market,SDR,10,12,120.00%,2
+R00802,R008,Kevin O'Brien,2,Feb,Mid-Market,SDR,10,11,110.00%,1
+R00803,R008,Kevin O'Brien,3,Mar,Mid-Market,SDR,10,13,130.00%,3
+R00804,R008,Kevin O'Brien,4,Apr,Mid-Market,SDR,10,11,110.00%,1
+R00805,R008,Kevin O'Brien,5,May,Mid-Market,SDR,10,11,110.00%,1
+R00806,R008,Kevin O'Brien,6,Jun,Mid-Market,SDR,10,10,100.00%,0
+R00807,R008,Kevin O'Brien,7,Jul,Mid-Market,SDR,10,8,80.00%,-2
+R00808,R008,Kevin O'Brien,8,Aug,Mid-Market,SDR,10,5,50.00%,-5
+R00901,R009,Aisha Johnson,1,Jan,Mid-Market,SDR,10,12,120.00%,2
+R00902,R009,Aisha Johnson,2,Feb,Mid-Market,SDR,10,12,120.00%,2
+R00903,R009,Aisha Johnson,3,Mar,Mid-Market,SDR,10,14,140.00%,4
+R00904,R009,Aisha Johnson,4,Apr,Mid-Market,SDR,10,11,110.00%,1
+R00905,R009,Aisha Johnson,5,May,Mid-Market,SDR,10,12,120.00%,2
+R00906,R009,Aisha Johnson,6,Jun,Mid-Market,SDR,10,11,110.00%,1
+R00907,R009,Aisha Johnson,7,Jul,Mid-Market,SDR,10,9,90.00%,-1
+R00908,R009,Aisha Johnson,8,Aug,Mid-Market,SDR,10,8,80.00%,-2
+R00909,R009,Aisha Johnson,9,Sep,Mid-Market,SDR,10,10,100.00%,0
+R00910,R009,Aisha Johnson,10,Oct,Mid-Market,SDR,10,8,80.00%,-2
+R00911,R009,Aisha Johnson,11,Nov,Mid-Market,SDR,10,10,100.00%,0
+R00912,R009,Aisha Johnson,12,Dec,Mid-Market,SDR,10,11,110.00%,1
+R01007,R010,Jessica Martinez,7,Jul,Mid-Market,SDR,4,6,150.00%,2
+R01008,R010,Jessica Martinez,8,Aug,Mid-Market,SDR,7,8,114.30%,1
+R01009,R010,Jessica Martinez,9,Sep,Mid-Market,SDR,10,11,110.00%,1
+R01010,R010,Jessica Martinez,10,Oct,Mid-Market,SDR,10,10,100.00%,0
+R01011,R010,Jessica Martinez,11,Nov,Mid-Market,SDR,10,11,110.00%,1
+R01012,R010,Jessica Martinez,12,Dec,Mid-Market,SDR,10,11,110.00%,1
+R01101,R011,Ryan Thompson,1,Jan,Mid-Market,AE,"$50,000 ","$62,000 ",124.00%,"$12,000 "
+R01102,R011,Ryan Thompson,2,Feb,Mid-Market,AE,"$50,000 ","$58,000 ",116.00%,"$8,000 "
+R01103,R011,Ryan Thompson,3,Mar,Mid-Market,AE,"$50,000 ","$68,000 ",136.00%,"$18,000 "
+R01104,R011,Ryan Thompson,4,Apr,Mid-Market,AE,"$50,000 ","$54,000 ",108.00%,"$4,000 "
+R01105,R011,Ryan Thompson,5,May,Mid-Market,AE,"$50,000 ","$52,000 ",104.00%,"$2,000 "
+R01106,R011,Ryan Thompson,6,Jun,Mid-Market,AE,"$50,000 ","$57,000 ",114.00%,"$7,000 "
+R01107,R011,Ryan Thompson,7,Jul,Mid-Market,AE,"$50,000 ","$44,000 ",88.00%,"($6,000)"
+R01108,R011,Ryan Thompson,8,Aug,Mid-Market,AE,"$50,000 ","$40,000 ",80.00%,"($10,000)"
+R01109,R011,Ryan Thompson,9,Sep,Mid-Market,AE,"$50,000 ","$48,000 ",96.00%,"($2,000)"
+R01110,R011,Ryan Thompson,10,Oct,Mid-Market,AE,"$50,000 ","$38,000 ",76.00%,"($12,000)"
+R01111,R011,Ryan Thompson,11,Nov,Mid-Market,AE,"$50,000 ","$42,000 ",84.00%,"($8,000)"
+R01112,R011,Ryan Thompson,12,Dec,Mid-Market,AE,"$50,000 ","$52,000 ",104.00%,"$2,000 "
+R01201,R012,Samantha Lee,1,Jan,Mid-Market,AE,"$50,000 ","$68,000 ",136.00%,"$18,000 "
+R01202,R012,Samantha Lee,2,Feb,Mid-Market,AE,"$50,000 ","$64,000 ",128.00%,"$14,000 "
+R01203,R012,Samantha Lee,3,Mar,Mid-Market,AE,"$50,000 ","$72,000 ",144.00%,"$22,000 "
+R01204,R012,Samantha Lee,4,Apr,Mid-Market,AE,"$50,000 ","$58,000 ",116.00%,"$8,000 "
+R01205,R012,Samantha Lee,5,May,Mid-Market,AE,"$50,000 ","$62,000 ",124.00%,"$12,000 "
+R01206,R012,Samantha Lee,6,Jun,Mid-Market,AE,"$50,000 ","$55,000 ",110.00%,"$5,000 "
+R01207,R012,Samantha Lee,7,Jul,Mid-Market,AE,"$50,000 ","$45,000 ",90.00%,"($5,000)"
+R01208,R012,Samantha Lee,8,Aug,Mid-Market,AE,"$50,000 ","$42,000 ",84.00%,"($8,000)"
+R01209,R012,Samantha Lee,9,Sep,Mid-Market,AE,"$50,000 ","$50,000 ",100.00%,$0 
+R01210,R012,Samantha Lee,10,Oct,Mid-Market,AE,"$50,000 ","$40,000 ",80.00%,"($10,000)"
+R01211,R012,Samantha Lee,11,Nov,Mid-Market,AE,"$50,000 ","$45,000 ",90.00%,"($5,000)"
+R01212,R012,Samantha Lee,12,Dec,Mid-Market,AE,"$50,000 ","$58,000 ",116.00%,"$8,000 "
+R01301,R013,Daniel Foster,1,Jan,Mid-Market,CSM,"$15,000 ","$20,000 ",133.30%,"$5,000 "
+R01302,R013,Daniel Foster,2,Feb,Mid-Market,CSM,"$15,000 ","$18,000 ",120.00%,"$3,000 "
+R01303,R013,Daniel Foster,3,Mar,Mid-Market,CSM,"$15,000 ","$22,000 ",146.70%,"$7,000 "
+R01304,R013,Daniel Foster,4,Apr,Mid-Market,CSM,"$15,000 ","$17,000 ",113.30%,"$2,000 "
+R01305,R013,Daniel Foster,5,May,Mid-Market,CSM,"$15,000 ","$16,000 ",106.70%,"$1,000 "
+R01306,R013,Daniel Foster,6,Jun,Mid-Market,CSM,"$15,000 ","$18,000 ",120.00%,"$3,000 "
+R01307,R013,Daniel Foster,7,Jul,Mid-Market,CSM,"$15,000 ","$13,000 ",86.70%,"($2,000)"
+R01308,R013,Daniel Foster,8,Aug,Mid-Market,CSM,"$15,000 ","$11,000 ",73.30%,"($4,000)"
+R01309,R013,Daniel Foster,9,Sep,Mid-Market,CSM,"$15,000 ","$14,000 ",93.30%,"($1,000)"
+R01310,R013,Daniel Foster,10,Oct,Mid-Market,CSM,"$15,000 ","$10,000 ",66.70%,"($5,000)"
+R01311,R013,Daniel Foster,11,Nov,Mid-Market,CSM,"$15,000 ","$12,000 ",80.00%,"($3,000)"
+R01312,R013,Daniel Foster,12,Dec,Mid-Market,CSM,"$15,000 ","$15,000 ",100.00%,$0 
+R01401,R014,Rachel Green,1,Jan,Mid-Market,CSM,"$15,000 ","$22,000 ",146.70%,"$7,000 "
+R01402,R014,Rachel Green,2,Feb,Mid-Market,CSM,"$15,000 ","$20,000 ",133.30%,"$5,000 "
+R01403,R014,Rachel Green,3,Mar,Mid-Market,CSM,"$15,000 ","$24,000 ",160.00%,"$9,000 "
+R01404,R014,Rachel Green,4,Apr,Mid-Market,CSM,"$15,000 ","$18,000 ",120.00%,"$3,000 "
+R01405,R014,Rachel Green,5,May,Mid-Market,CSM,"$15,000 ","$19,000 ",126.70%,"$4,000 "
+R01406,R014,Rachel Green,6,Jun,Mid-Market,CSM,"$15,000 ","$17,000 ",113.30%,"$2,000 "
+R01407,R014,Rachel Green,7,Jul,Mid-Market,CSM,"$15,000 ","$14,000 ",93.30%,"($1,000)"
+R01408,R014,Rachel Green,8,Aug,Mid-Market,CSM,"$15,000 ","$13,000 ",86.70%,"($2,000)"
+R01409,R014,Rachel Green,9,Sep,Mid-Market,CSM,"$15,000 ","$15,000 ",100.00%,$0 
+R01410,R014,Rachel Green,10,Oct,Mid-Market,CSM,"$15,000 ","$12,000 ",80.00%,"($3,000)"
+R01411,R014,Rachel Green,11,Nov,Mid-Market,CSM,"$15,000 ","$14,000 ",93.30%,"($1,000)"
+R01412,R014,Rachel Green,12,Dec,Mid-Market,CSM,"$15,000 ","$18,000 ",120.00%,"$3,000 "
+R01601,R016,Nina Patel,1,Jan,SMB,SDR,16,20,125.00%,4
+R01602,R016,Nina Patel,2,Feb,SMB,SDR,16,18,112.50%,2
+R01603,R016,Nina Patel,3,Mar,SMB,SDR,16,21,131.30%,5
+R01604,R016,Nina Patel,4,Apr,SMB,SDR,16,17,106.30%,1
+R01605,R016,Nina Patel,5,May,SMB,SDR,16,18,112.50%,2
+R01606,R016,Nina Patel,6,Jun,SMB,SDR,16,16,100.00%,0
+R01607,R016,Nina Patel,7,Jul,SMB,SDR,16,13,81.30%,-3
+R01608,R016,Nina Patel,8,Aug,SMB,SDR,16,12,75.00%,-4
+R01609,R016,Nina Patel,9,Sep,SMB,SDR,16,15,93.80%,-1
+R01610,R016,Nina Patel,10,Oct,SMB,SDR,16,13,81.30%,-3
+R01611,R016,Nina Patel,11,Nov,SMB,SDR,16,14,87.50%,-2
+R01612,R016,Nina Patel,12,Dec,SMB,SDR,16,17,106.30%,1
+R01701,R017,Derek Washington,1,Jan,SMB,SDR,16,18,112.50%,2
+R01702,R017,Derek Washington,2,Feb,SMB,SDR,16,17,106.30%,1
+R01703,R017,Derek Washington,3,Mar,SMB,SDR,16,19,118.80%,3
+R01704,R017,Derek Washington,4,Apr,SMB,SDR,16,16,100.00%,0
+R01705,R017,Derek Washington,5,May,SMB,SDR,16,17,106.30%,1
+R01706,R017,Derek Washington,6,Jun,SMB,SDR,16,15,93.80%,-1
+R01707,R017,Derek Washington,7,Jul,SMB,SDR,16,13,81.30%,-3
+R01708,R017,Derek Washington,8,Aug,SMB,SDR,16,12,75.00%,-4
+R01709,R017,Derek Washington,9,Sep,SMB,SDR,16,14,87.50%,-2
+R01710,R017,Derek Washington,10,Oct,SMB,SDR,16,12,75.00%,-4
+R01711,R017,Derek Washington,11,Nov,SMB,SDR,16,14,87.50%,-2
+R01712,R017,Derek Washington,12,Dec,SMB,SDR,16,16,100.00%,0
+R01801,R018,Brandon Cole,1,Jan,SMB,AE,"$25,000 ","$18,000 ",72.00%,"($7,000)"
+R01802,R018,Brandon Cole,2,Feb,SMB,AE,"$25,000 ","$15,000 ",60.00%,"($10,000)"
+R01803,R018,Brandon Cole,3,Mar,SMB,AE,"$25,000 ","$20,000 ",80.00%,"($5,000)"
+R01804,R018,Brandon Cole,4,Apr,SMB,AE,"$25,000 ","$17,000 ",68.00%,"($8,000)"
+R01805,R018,Brandon Cole,5,May,SMB,AE,"$25,000 ","$15,000 ",60.00%,"($10,000)"
+R01806,R018,Brandon Cole,6,Jun,SMB,AE,"$25,000 ","$14,000 ",56.00%,"($11,000)"
+R01907,R019,Stephanie Kim,7,Jul,SMB,AE,"$10,000 ","$10,000 ",100.00%,$0 
+R01908,R019,Stephanie Kim,8,Aug,SMB,AE,"$17,500 ","$17,000 ",97.10%,($500)
+R01909,R019,Stephanie Kim,9,Sep,SMB,AE,"$25,000 ","$25,000 ",100.00%,$0 
+R01910,R019,Stephanie Kim,10,Oct,SMB,AE,"$25,000 ","$24,000 ",96.00%,"($1,000)"
+R01911,R019,Stephanie Kim,11,Nov,SMB,AE,"$25,000 ","$21,000 ",84.00%,"($4,000)"
+R01912,R019,Stephanie Kim,12,Dec,SMB,AE,"$25,000 ","$26,000 ",104.00%,"$1,000 "
+R02001,R020,Amy Chen,1,Jan,SMB,AE,"$25,000 ","$32,000 ",128.00%,"$7,000 "
+R02002,R020,Amy Chen,2,Feb,SMB,AE,"$25,000 ","$29,000 ",116.00%,"$4,000 "
+R02003,R020,Amy Chen,3,Mar,SMB,AE,"$25,000 ","$35,000 ",140.00%,"$10,000 "
+R02004,R020,Amy Chen,4,Apr,SMB,AE,"$25,000 ","$27,000 ",108.00%,"$2,000 "
+R02005,R020,Amy Chen,5,May,SMB,AE,"$25,000 ","$30,000 ",120.00%,"$5,000 "
+R02006,R020,Amy Chen,6,Jun,SMB,AE,"$25,000 ","$28,000 ",112.00%,"$3,000 "
+R02007,R020,Amy Chen,7,Jul,SMB,AE,"$25,000 ","$22,000 ",88.00%,"($3,000)"
+R02008,R020,Amy Chen,8,Aug,SMB,AE,"$25,000 ","$20,000 ",80.00%,"($5,000)"
+R02009,R020,Amy Chen,9,Sep,SMB,AE,"$25,000 ","$25,000 ",100.00%,$0 
+R02010,R020,Amy Chen,10,Oct,SMB,AE,"$25,000 ","$19,000 ",76.00%,"($6,000)"
+R02011,R020,Amy Chen,11,Nov,SMB,AE,"$25,000 ","$22,000 ",88.00%,"($3,000)"
+R02012,R020,Amy Chen,12,Dec,SMB,AE,"$25,000 ","$28,000 ",112.00%,"$3,000 "
+R02101,R021,Jennifer Walsh,1,Jan,SMB,CSM,"$5,000 ","$7,000 ",140.00%,"$2,000 "
+R02102,R021,Jennifer Walsh,2,Feb,SMB,CSM,"$5,000 ","$6,000 ",120.00%,"$1,000 "
+R02103,R021,Jennifer Walsh,3,Mar,SMB,CSM,"$5,000 ","$8,000 ",160.00%,"$3,000 "
+R02104,R021,Jennifer Walsh,4,Apr,SMB,CSM,"$5,000 ","$6,000 ",120.00%,"$1,000 "
+R02105,R021,Jennifer Walsh,5,May,SMB,CSM,"$5,000 ","$5,500 ",110.00%,$500 
+R02106,R021,Jennifer Walsh,6,Jun,SMB,CSM,"$5,000 ","$6,000 ",120.00%,"$1,000 "
+R02107,R021,Jennifer Walsh,7,Jul,SMB,CSM,"$5,000 ","$4,500 ",90.00%,($500)
+R02108,R021,Jennifer Walsh,8,Aug,SMB,CSM,"$5,000 ","$4,000 ",80.00%,"($1,000)"
+R02109,R021,Jennifer Walsh,9,Sep,SMB,CSM,"$5,000 ","$4,500 ",90.00%,($500)
+R02110,R021,Jennifer Walsh,10,Oct,SMB,CSM,"$5,000 ","$3,500 ",70.00%,"($1,500)"
+R02111,R021,Jennifer Walsh,11,Nov,SMB,CSM,"$5,000 ","$4,000 ",80.00%,"($1,000)"
+R02112,R021,Jennifer Walsh,12,Dec,SMB,CSM,"$5,000 ","$5,000 ",100.00%,$0 

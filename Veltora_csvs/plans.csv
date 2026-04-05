@@ -1,0 +1,11 @@
+Plan Key,Role,Segment,Annual Base ($),Annual OTE ($),Annual Quota,Commission Rate,Rate Type,Accel Tier 1 Threshold,Accel Tier 1 Mult,Accel Tier 2 Threshold,Accel Tier 2 Mult,Performance Metric,Notes
+SDR_Enterprise,SDR,Enterprise,"$62,000 ","$85,000 ",96,319,$/held mtg,110%,1.3,—,—,Held Meetings,New hire quota: 40%/70%/100% ramp
+SDR_Mid-Market,SDR,Mid-Market,"$55,000 ","$75,000 ",120,167,$/held mtg,110%,1.25,—,—,Held Meetings,New hire quota: 40%/70%/100% ramp
+SDR_SMB,SDR,SMB,"$48,000 ","$65,000 ",192,89,$/held mtg,110%,1.2,—,—,Held Meetings,New hire quota: 40%/70%/100% ramp
+AE_Enterprise,AE,Enterprise,"$95,000 ","$185,000 ","$900,000 ",10%,% of ARR,100%,1.25,120%,1.5,ARR Closed,Accel applied to full quarter at quarter-end true-up
+AE_Mid-Market,AE,Mid-Market,"$80,000 ","$140,000 ","$600,000 ",10%,% of ARR,100%,1.25,120%,1.5,ARR Closed,Accel applied to full quarter at quarter-end true-up
+AE_SMB,AE,SMB,"$65,000 ","$95,000 ","$300,000 ",10%,% of ARR,100%,1.2,120%,1.4,ARR Closed,Accel applied to full quarter at quarter-end true-up
+CSM_Enterprise,CSM,Enterprise,"$80,000 ","$107,000 ","$480,000 ",6%,% of Exp,105%,1.2,—,—,Net Exp ARR,Quota = net expansion target vs book of business
+CSM_Mid-Market,CSM,Mid-Market,"$70,000 ","$105,000 ","$180,000 ",6%,% of Exp,105%,1.2,—,—,Net Exp ARR,Quota = net expansion target vs book of business
+CSM_SMB,CSM,SMB,"$60,000 ","$88,000 ","$60,000 ",6%,% of Exp,105%,1.15,—,—,Net Exp ARR,Quota = net expansion target vs book of business
+Manager_All,Manager,All,"$110,000 ","$145,000 ",—,2%,% of team,100%,—,—,—,Team Override,Override on direct reports' commissions; bonus at 100% team att
