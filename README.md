@@ -108,6 +108,40 @@ uncovered and revenue was left on the table. That is the real cost of attrition.
 The top 20% of earners took a sizeable share of variable compensation. That can mean two things: either those reps are genuinely 
 exceptional, or some quotas are set too low. This is worth investigating before locking in the 2026 plan design.
 
+## SQL Analysis
+
+The prior Excel model calculates everything, but some questions require 
+a different angle. The underlying data was exported to a SQLite 
+database and analyzed with four SQL queries, each targeting a 
+specific business question that matters heading into 2026 planning.
+
+**01_accelerator_roi.sql** queries the return on accelerator spend 
+by segment. For every dollar Veltora paid out in accelerators, SMB 
+returned $37.63 in ARR, while Enterprise and Mid-Market came in 
+nearly identical at $27.65. The accelerator structure earned its 
+cost across all three segments.
+
+**02_rep_churn_cost.sql** quantifies the true cost of mid-year 
+attrition. Three reps left during the year, and the salary savings 
+look fine on paper, but the quota gap tells a different story. The 
+SMB AE departure alone left $51,000 in uncovered territory across 
+six months, revenue that simply did not get chased.
+
+**03_comp_efficiency.sql** measures ARR generated per dollar of 
+total comp spend by segment. Enterprise led at $4.47 per dollar, 
+Mid-Market came in at $3.99, and SMB trailed at $2.81, consistent 
+with the attrition and ramp disruption that hit the segment hardest 
+in H2.
+
+**04_attainment_distribution.sql** buckets every rep-month into 
+attainment bands rather than looking at individual performance in 
+isolation. Enterprise AEs spent 37.5% of the months in the 100-119% 
+range and 25% above 120%, with only 8.3% below 80%. That is a 
+well-calibrated quota.
+
+The SQLite database and raw CSVs are included in the repo. All four 
+Queries can be run directly in DB Browser for SQLite.
+
 ## Screenshots
 
 ### Dashboard
