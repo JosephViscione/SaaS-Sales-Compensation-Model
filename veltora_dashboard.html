@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veltora Inc. — Sales Compensation Dashboard · FY 2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{background:#ECEEF2;padding:16px}
+.header{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;background:white;border-radius:10px;padding:18px 24px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
+.header h1{font-size:19px;font-weight:700;color:#111;letter-spacing:-0.3px}
+.header p{font-size:11px;color:#999;margin-top:4px}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.filter-label{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:0.7px}
+.slicer-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.slicer{background:#F6F7F9;border:1px solid #dde1e7;border-radius:5px;padding:7px 16px;font-size:11px;color:#333;cursor:pointer;min-width:130px}
+.slicer:hover,.slicer:focus{border-color:#1B4F8A;outline:none}
+.row1{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 230px;gap:9px;margin-bottom:9px}
+.kpi{background:white;border-radius:8px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.kpi-label{font-size:10px;font-weight:600;color:#666;text-align:center;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.kpi-val{font-size:24px;font-weight:700;text-align:center;line-height:1}
+.kpi-sub{font-size:10px;font-weight:600;text-align:center;margin-top:3px}
+.kpi-note{font-size:9px;color:#aaa;text-align:center;margin-top:1px}
+.kpi-divider{border:none;border-top:1px solid #f2f2f2;margin:8px 0}
+.gauges{display:flex;flex-direction:column;gap:9px}
+.gauge{background:white;border-radius:8px;padding:10px 13px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.gl{font-size:10px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.3px}
+.gs{font-size:9px;color:#999;margin-top:1px}
+.gn{font-size:9px;font-weight:600;margin-top:3px}
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:9px;margin-bottom:9px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:9px}
+.row4{display:grid;grid-template-columns:1.4fr 0.8fr 230px;gap:9px}
+.card{background:white;border-radius:8px;padding:13px 15px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.ct{font-size:12px;font-weight:700;color:#111}
+.cs{font-size:9px;color:#999;margin-top:2px;margin-bottom:10px}
+.ii{font-size:9px;color:#333;padding:5px 0;border-bottom:1px solid #f4f4f4;line-height:1.5;display:flex;justify-content:space-between;align-items:flex-start}
+.itx{flex:1}
+.badge{font-size:7.5px;padding:2px 6px;border-radius:3px;font-weight:600;white-space:nowrap;margin-left:6px;flex-shrink:0}
+.bt{background:#e0f7f7;color:#0e7490}
+.ba{background:#fff8e1;color:#b45309}
+.bc{background:#fff0ed;color:#c0392b}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Veltora Inc. &mdash; Sales Compensation Dashboard &middot; FY 2025</h1>
+    <p>Executive Summary &nbsp;&middot;&nbsp; Full Year Performance &nbsp;&middot;&nbsp; RevOps Team &nbsp;&middot;&nbsp; Austin, TX &nbsp;&middot;&nbsp; Series B</p>
+  </div>
+  <div class="header-right">
+    <span class="filter-label">Filter by</span>
+    <div class="slicer-grid">
+      <select class="slicer" id="f-seg"><option value="">All Segments</option><option>Enterprise</option><option>Mid-Market</option><option>SMB</option></select>
+      <select class="slicer" id="f-role"><option value="">All Roles</option><option>AE</option><option>CSM</option><option>SDR</option></select>
+      <select class="slicer" id="f-status"><option value="">All Status</option><option>Active</option><option>Ramping</option><option>Churned</option></select>
+      <select class="slicer" id="f-qtr"><option value="">All Quarters</option><option value="1,2,3">Q1</option><option value="4,5,6">Q2</option><option value="7,8,9">Q3</option><option value="10,11,12">Q4</option></select>
+    </div>
+  </div>
+</div>
+
+<div class="row1">
+  <div class="kpi">
+    <div class="kpi-label">Total ARR Closed</div>
+    <div class="kpi-val" style="color:#1B4F8A" id="kv-arr">-</div>
+    <div class="kpi-sub" style="color:#5ECBC8" id="ks-arr">-</div>
+    <div class="kpi-note" id="kn-arr">AE segment only</div>
+    <hr class="kpi-divider">
+    <div style="position:relative;height:55px"><canvas id="kpi1"></canvas></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Total Comp Cost</div>
+    <div class="kpi-val" style="color:#F5A623" id="kv-comp">-</div>
+    <div class="kpi-sub" style="color:#F5A623" id="ks-comp">-</div>
+    <div class="kpi-note" id="kn-comp">All roles</div>
+    <hr class="kpi-divider">
+    <div style="position:relative;height:55px"><canvas id="kpi2"></canvas></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Accelerator Spend</div>
+    <div class="kpi-val" style="color:#5ECBC8" id="kv-accel">-</div>
+    <div class="kpi-sub" style="color:#5ECBC8" id="ks-accel">-</div>
+    <div class="kpi-note">Above standard commission</div>
+    <hr class="kpi-divider">
+    <div style="position:relative;height:55px"><canvas id="kpi3"></canvas></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Org Attainment</div>
+    <div class="kpi-val" style="color:#FF977E" id="kv-att">-</div>
+    <div class="kpi-sub" style="color:#FF977E" id="ks-att">-</div>
+    <div class="kpi-note">AE actual vs quota</div>
+    <hr class="kpi-divider">
+    <div style="position:relative;height:55px"><canvas id="kpi4"></canvas></div>
+  </div>
+  <div class="gauges">
+    <div class="gauge">
+      <svg id="g1-svg" width="72" height="50" viewBox="0 0 90 58">
+        <path d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#e8e8e8" stroke-width="9" stroke-linecap="round"/>
+        <path id="g1-arc" d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#1B4F8A" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 116"/>
+        <text id="g1-val" x="45" y="47" font-size="11" font-weight="700" fill="#1B4F8A" text-anchor="middle">-</text>
+        <text x="8" y="58" font-size="6.5" fill="#aaa" text-anchor="middle">0%</text>
+        <text x="82" y="58" font-size="6.5" fill="#F5A623" text-anchor="middle">100%</text>
+      </svg>
+      <div><div class="gl">Org Attainment</div><div class="gs">vs 100% quota target</div><div class="gn" id="g1-sig" style="color:#F5A623">-</div></div>
+    </div>
+    <div class="gauge">
+      <svg width="72" height="50" viewBox="0 0 90 58">
+        <path d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#e8e8e8" stroke-width="9" stroke-linecap="round"/>
+        <path id="g2-arc" d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#5ECBC8" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 116"/>
+        <text id="g2-val" x="45" y="47" font-size="11" font-weight="700" fill="#5ECBC8" text-anchor="middle">-</text>
+        <text x="8" y="58" font-size="6.5" fill="#aaa" text-anchor="middle">/bin/sh</text>
+        <text x="82" y="58" font-size="6.5" fill="#aaa" text-anchor="middle">$5</text>
+      </svg>
+      <div><div class="gl">Comp Efficiency</div><div class="gs">ARR per $1 comp (AE)</div><div class="gn" id="g2-sig" style="color:#5ECBC8">-</div></div>
+    </div>
+    <div class="gauge">
+      <svg width="72" height="50" viewBox="0 0 90 58">
+        <path d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#e8e8e8" stroke-width="9" stroke-linecap="round"/>
+        <path id="g3-arc" d="M8,54 A37,37 0 0,1 82,54" fill="none" stroke="#5ECBC8" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 116"/>
+        <text id="g3-val" x="45" y="47" font-size="11" font-weight="700" fill="#5ECBC8" text-anchor="middle">-</text>
+        <text x="8" y="58" font-size="6.5" fill="#aaa" text-anchor="middle">$0</text>
+        <text x="82" y="58" font-size="6.5" fill="#aaa" text-anchor="middle">$40</text>
+      </svg>
+      <div><div class="gl">Accelerator ROI</div><div class="gs">ARR per $1 accel spend</div><div class="gn" id="g3-sig" style="color:#5ECBC8">-</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="row2">
+  <div class="card">
+    <div class="ct">Monthly ARR Trend &middot; FY 2025</div>
+    <div class="cs" id="trend-sub">AE actual performance by month</div>
+    <div style="position:relative;height:160px"><canvas id="trend"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Comp Cost Breakdown</div>
+    <div class="cs">Base salary vs variable vs accelerator spend</div>
+    <div style="position:relative;height:160px"><canvas id="breakdown"></canvas></div>
+  </div>
+</div>
+
+<div class="row3">
+  <div class="card">
+    <div class="ct">ARR vs Comp Cost by Segment</div>
+    <div class="cs">AE revenue vs total comp cost per segment</div>
+    <div style="position:relative;height:140px"><canvas id="segchart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Attainment Band Distribution</div>
+    <div class="cs">AE reps by attainment band</div>
+    <div style="position:relative;height:140px"><canvas id="bands"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">Accelerator ROI by Segment</div>
+    <div class="cs">ARR per $1 of accelerator spend (AE)</div>
+    <div style="position:relative;height:140px"><canvas id="accelroi"></canvas></div>
+  </div>
+</div>
+
+<div class="row4">
+  <div class="card">
+    <div class="ct">Rep Attainment &middot; AEs Ranked &middot; FY 2025</div>
+    <div class="cs">Color coded by band &middot; Amber line = 100% quota</div>
+    <div style="position:relative;height:200px"><canvas id="repbars"></canvas></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;align-items:center">
+    <div class="ct" style="width:100%">Headcount by Status</div>
+    <div class="cs" style="width:100%">All roles in filtered view</div>
+    <div style="position:relative;height:200px;width:200px"><canvas id="donut"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ct">2026 Planning Signals</div>
+    <div class="cs">Key findings from FY 2025 analysis</div>
+    <div class="ii"><div class="itx"><span style="color:#1B4F8A;font-weight:700">+104.3%</span> org attainment despite H2 softening</div><span class="badge bt">&#10003; Good</span></div>
+    <div class="ii"><div class="itx"><span style="color:#F5A623;font-weight:700">Aug dip</span> seasonal pattern &mdash; build Q3 quota buffer</div><span class="badge ba">! Plan</span></div>
+    <div class="ii"><div class="itx"><span style="color:#FF977E;font-weight:700">$51K gap</span> from SMB AE churn &mdash; add retention budget</div><span class="badge bc">&#10007; Risk</span></div>
+    <div class="ii"><div class="itx"><span style="color:#5ECBC8;font-weight:700">Accel ROI</span> structure working &mdash; keep as-is</div><span class="badge bt">&#10003; Keep</span></div>
+    <div class="ii"><div class="itx"><span style="color:#FF977E;font-weight:700">SMB efficiency</span> lowest segment &mdash; fix before hiring</div><span class="badge bc">&#10007; Risk</span></div>
+    <div class="ii"><div class="itx"><span style="color:#F5A623;font-weight:700">Top 20%</span> concentration &mdash; quota calibration needed</div><span class="badge ba">! Review</span></div>
+  </div>
+</div>
+
+<script>
+const RAW = [{"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 1, "month": "Jan", "actual": 9.0, "quota": 8.0, "base": 5167.0, "variable": 3732.0, "cash": 8899.0, "accel": 861.0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 2, "month": "Feb", "actual": 8.0, "quota": 8.0, "base": 5167.0, "variable": 2552.0, "cash": 7719.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 3, "month": "Mar", "actual": 9.0, "quota": 8.0, "base": 5167.0, "variable": 2871.0, "cash": 8038.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 4, "month": "Apr", "actual": 7.0, "quota": 8.0, "base": 5167.0, "variable": 2233.0, "cash": 7400.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 5, "month": "May", "actual": 8.0, "quota": 8.0, "base": 5167.0, "variable": 2552.0, "cash": 7719.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 6, "month": "Jun", "actual": 7.0, "quota": 8.0, "base": 5167.0, "variable": 2233.0, "cash": 7400.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 7, "month": "Jul", "actual": 5.0, "quota": 8.0, "base": 5167.0, "variable": 1595.0, "cash": 6762.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 8, "month": "Aug", "actual": 4.0, "quota": 8.0, "base": 5167.0, "variable": 1276.0, "cash": 6443.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 9, "month": "Sep", "actual": 6.0, "quota": 8.0, "base": 5167.0, "variable": 1914.0, "cash": 7081.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 10, "month": "Oct", "actual": 5.0, "quota": 8.0, "base": 5167.0, "variable": 1595.0, "cash": 6762.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 11, "month": "Nov", "actual": 6.0, "quota": 8.0, "base": 5167.0, "variable": 1914.0, "cash": 7081.0, "accel": 0, "isAE": 0}, {"id": "R002", "name": "Marcus Williams", "role": "SDR", "segment": "Enterprise", "status": "Active", "mo": 12, "month": "Dec", "actual": 7.0, "quota": 8.0, "base": 5167.0, "variable": 2233.0, "cash": 7400.0, "accel": 0, "isAE": 0}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 1, "month": "Jan", "actual": 95000.0, "quota": 75000.0, "base": 7917.0, "variable": 14250.0, "cash": 22167.0, "accel": 4750.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 2, "month": "Feb", "actual": 88000.0, "quota": 75000.0, "base": 7917.0, "variable": 11000.0, "cash": 18917.0, "accel": 2200.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 3, "month": "Mar", "actual": 105000.0, "quota": 75000.0, "base": 7917.0, "variable": 15750.0, "cash": 23667.0, "accel": 5250.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 4, "month": "Apr", "actual": 82000.0, "quota": 75000.0, "base": 7917.0, "variable": 10250.0, "cash": 18167.0, "accel": 2050.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 5, "month": "May", "actual": 79000.0, "quota": 75000.0, "base": 7917.0, "variable": 9875.0, "cash": 17792.0, "accel": 1975.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 6, "month": "Jun", "actual": 86000.0, "quota": 75000.0, "base": 7917.0, "variable": 10750.0, "cash": 18667.0, "accel": 2150.0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 7, "month": "Jul", "actual": 65000.0, "quota": 75000.0, "base": 7917.0, "variable": 6500.0, "cash": 14417.0, "accel": 0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 8, "month": "Aug", "actual": 58000.0, "quota": 75000.0, "base": 7917.0, "variable": 5800.0, "cash": 13717.0, "accel": 0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 9, "month": "Sep", "actual": 70000.0, "quota": 75000.0, "base": 7917.0, "variable": 7000.0, "cash": 14917.0, "accel": 0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 10, "month": "Oct", "actual": 55000.0, "quota": 75000.0, "base": 7917.0, "variable": 5500.0, "cash": 13417.0, "accel": 0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 11, "month": "Nov", "actual": 62000.0, "quota": 75000.0, "base": 7917.0, "variable": 6200.0, "cash": 14117.0, "accel": 0, "isAE": 1}, {"id": "R003", "name": "James Harrington", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 12, "month": "Dec", "actual": 78000.0, "quota": 75000.0, "base": 7917.0, "variable": 9750.0, "cash": 17667.0, "accel": 1950.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 1, "month": "Jan", "actual": 102000.0, "quota": 75000.0, "base": 7917.0, "variable": 15300.0, "cash": 23217.0, "accel": 5100.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 2, "month": "Feb", "actual": 95000.0, "quota": 75000.0, "base": 7917.0, "variable": 14250.0, "cash": 22167.0, "accel": 4750.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 3, "month": "Mar", "actual": 115000.0, "quota": 75000.0, "base": 7917.0, "variable": 17250.0, "cash": 25167.0, "accel": 5750.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 4, "month": "Apr", "actual": 88000.0, "quota": 75000.0, "base": 7917.0, "variable": 11000.0, "cash": 18917.0, "accel": 2200.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 5, "month": "May", "actual": 92000.0, "quota": 75000.0, "base": 7917.0, "variable": 13800.0, "cash": 21717.0, "accel": 4600.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 6, "month": "Jun", "actual": 85000.0, "quota": 75000.0, "base": 7917.0, "variable": 10625.0, "cash": 18542.0, "accel": 2125.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 7, "month": "Jul", "actual": 72000.0, "quota": 75000.0, "base": 7917.0, "variable": 7200.0, "cash": 15117.0, "accel": 0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 8, "month": "Aug", "actual": 65000.0, "quota": 75000.0, "base": 7917.0, "variable": 6500.0, "cash": 14417.0, "accel": 0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 9, "month": "Sep", "actual": 78000.0, "quota": 75000.0, "base": 7917.0, "variable": 9750.0, "cash": 17667.0, "accel": 1950.0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 10, "month": "Oct", "actual": 62000.0, "quota": 75000.0, "base": 7917.0, "variable": 6200.0, "cash": 14117.0, "accel": 0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 11, "month": "Nov", "actual": 70000.0, "quota": 75000.0, "base": 7917.0, "variable": 7000.0, "cash": 14917.0, "accel": 0, "isAE": 1}, {"id": "R004", "name": "Olivia Brooks", "role": "AE", "segment": "Enterprise", "status": "Active", "mo": 12, "month": "Dec", "actual": 85000.0, "quota": 75000.0, "base": 7917.0, "variable": 10625.0, "cash": 18542.0, "accel": 2125.0, "isAE": 1}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 1, "month": "Jan", "actual": 52000.0, "quota": 40000.0, "base": 6667.0, "variable": 3744.0, "cash": 10411.0, "accel": 624.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 2, "month": "Feb", "actual": 48000.0, "quota": 40000.0, "base": 6667.0, "variable": 3456.0, "cash": 10123.0, "accel": 576.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 3, "month": "Mar", "actual": 58000.0, "quota": 40000.0, "base": 6667.0, "variable": 4176.0, "cash": 10843.0, "accel": 696.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 4, "month": "Apr", "actual": 44000.0, "quota": 40000.0, "base": 6667.0, "variable": 3168.0, "cash": 9835.0, "accel": 528.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 5, "month": "May", "actual": 42000.0, "quota": 40000.0, "base": 6667.0, "variable": 3024.0, "cash": 9691.0, "accel": 504.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 6, "month": "Jun", "actual": 46000.0, "quota": 40000.0, "base": 6667.0, "variable": 3312.0, "cash": 9979.0, "accel": 552.0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 7, "month": "Jul", "actual": 35000.0, "quota": 40000.0, "base": 6667.0, "variable": 2100.0, "cash": 8767.0, "accel": 0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 8, "month": "Aug", "actual": 30000.0, "quota": 40000.0, "base": 6667.0, "variable": 1800.0, "cash": 8467.0, "accel": 0, "isAE": 0}, {"id": "R005", "name": "David Kim", "role": "CSM", "segment": "Enterprise", "status": "Churned", "mo": 9, "month": "Sep", "actual": 38000.0, "quota": 40000.0, "base": 6667.0, "variable": 2280.0, "cash": 8947.0, "accel": 0, "isAE": 0}, {"id": "R006", "name": "Lisa Park", "role": "CSM", "segment": "Enterprise", "status": "Ramping", "mo": 10, "month": "Oct", "actual": 10000.0, "quota": 16000.0, "base": 6667.0, "variable": 600.0, "cash": 7267.0, "accel": 0, "isAE": 0}, {"id": "R006", "name": "Lisa Park", "role": "CSM", "segment": "Enterprise", "status": "Ramping", "mo": 11, "month": "Nov", "actual": 12000.0, "quota": 28000.0, "base": 6667.0, "variable": 720.0, "cash": 7387.0, "accel": 0, "isAE": 0}, {"id": "R006", "name": "Lisa Park", "role": "CSM", "segment": "Enterprise", "status": "Ramping", "mo": 12, "month": "Dec", "actual": 15000.0, "quota": 40000.0, "base": 6667.0, "variable": 900.0, "cash": 7567.0, "accel": 0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 1, "month": "Jan", "actual": 12.0, "quota": 10.0, "base": 4583.0, "variable": 2505.0, "cash": 7088.0, "accel": 501.0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 2, "month": "Feb", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 3, "month": "Mar", "actual": 13.0, "quota": 10.0, "base": 4583.0, "variable": 2714.0, "cash": 7297.0, "accel": 543.0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 4, "month": "Apr", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 5, "month": "May", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 6, "month": "Jun", "actual": 10.0, "quota": 10.0, "base": 4583.0, "variable": 1670.0, "cash": 6253.0, "accel": 0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 7, "month": "Jul", "actual": 8.0, "quota": 10.0, "base": 4583.0, "variable": 1336.0, "cash": 5919.0, "accel": 0, "isAE": 0}, {"id": "R008", "name": "Kevin O'Brien", "role": "SDR", "segment": "Mid-Market", "status": "Churned", "mo": 8, "month": "Aug", "actual": 5.0, "quota": 10.0, "base": 4583.0, "variable": 835.0, "cash": 5418.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 1, "month": "Jan", "actual": 12.0, "quota": 10.0, "base": 4583.0, "variable": 2505.0, "cash": 7088.0, "accel": 501.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 2, "month": "Feb", "actual": 12.0, "quota": 10.0, "base": 4583.0, "variable": 2505.0, "cash": 7088.0, "accel": 501.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 3, "month": "Mar", "actual": 14.0, "quota": 10.0, "base": 4583.0, "variable": 2923.0, "cash": 7506.0, "accel": 585.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 4, "month": "Apr", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 5, "month": "May", "actual": 12.0, "quota": 10.0, "base": 4583.0, "variable": 2505.0, "cash": 7088.0, "accel": 501.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 6, "month": "Jun", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 7, "month": "Jul", "actual": 9.0, "quota": 10.0, "base": 4583.0, "variable": 1503.0, "cash": 6086.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 8, "month": "Aug", "actual": 8.0, "quota": 10.0, "base": 4583.0, "variable": 1336.0, "cash": 5919.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 9, "month": "Sep", "actual": 10.0, "quota": 10.0, "base": 4583.0, "variable": 1670.0, "cash": 6253.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 10, "month": "Oct", "actual": 8.0, "quota": 10.0, "base": 4583.0, "variable": 1336.0, "cash": 5919.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 11, "month": "Nov", "actual": 10.0, "quota": 10.0, "base": 4583.0, "variable": 1670.0, "cash": 6253.0, "accel": 0, "isAE": 0}, {"id": "R009", "name": "Aisha Johnson", "role": "SDR", "segment": "Mid-Market", "status": "Active", "mo": 12, "month": "Dec", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 7, "month": "Jul", "actual": 6.0, "quota": 4.0, "base": 4583.0, "variable": 1253.0, "cash": 5836.0, "accel": 251.0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 8, "month": "Aug", "actual": 8.0, "quota": 7.0, "base": 4583.0, "variable": 1670.0, "cash": 6253.0, "accel": 334.0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 9, "month": "Sep", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 10, "month": "Oct", "actual": 10.0, "quota": 10.0, "base": 4583.0, "variable": 1670.0, "cash": 6253.0, "accel": 0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 11, "month": "Nov", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R010", "name": "Jessica Martinez", "role": "SDR", "segment": "Mid-Market", "status": "Ramping", "mo": 12, "month": "Dec", "actual": 11.0, "quota": 10.0, "base": 4583.0, "variable": 2296.0, "cash": 6880.0, "accel": 459.0, "isAE": 0}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 1, "month": "Jan", "actual": 62000.0, "quota": 50000.0, "base": 6667.0, "variable": 9300.0, "cash": 15967.0, "accel": 3100.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 2, "month": "Feb", "actual": 58000.0, "quota": 50000.0, "base": 6667.0, "variable": 7250.0, "cash": 13917.0, "accel": 1450.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 3, "month": "Mar", "actual": 68000.0, "quota": 50000.0, "base": 6667.0, "variable": 10200.0, "cash": 16867.0, "accel": 3400.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 4, "month": "Apr", "actual": 54000.0, "quota": 50000.0, "base": 6667.0, "variable": 6750.0, "cash": 13417.0, "accel": 1350.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 5, "month": "May", "actual": 52000.0, "quota": 50000.0, "base": 6667.0, "variable": 6500.0, "cash": 13167.0, "accel": 1300.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 6, "month": "Jun", "actual": 57000.0, "quota": 50000.0, "base": 6667.0, "variable": 7125.0, "cash": 13792.0, "accel": 1425.0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 7, "month": "Jul", "actual": 44000.0, "quota": 50000.0, "base": 6667.0, "variable": 4400.0, "cash": 11067.0, "accel": 0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 8, "month": "Aug", "actual": 40000.0, "quota": 50000.0, "base": 6667.0, "variable": 4000.0, "cash": 10667.0, "accel": 0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 9, "month": "Sep", "actual": 48000.0, "quota": 50000.0, "base": 6667.0, "variable": 4800.0, "cash": 11467.0, "accel": 0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 10, "month": "Oct", "actual": 38000.0, "quota": 50000.0, "base": 6667.0, "variable": 3800.0, "cash": 10467.0, "accel": 0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 11, "month": "Nov", "actual": 42000.0, "quota": 50000.0, "base": 6667.0, "variable": 4200.0, "cash": 10867.0, "accel": 0, "isAE": 1}, {"id": "R011", "name": "Ryan Thompson", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 12, "month": "Dec", "actual": 52000.0, "quota": 50000.0, "base": 6667.0, "variable": 6500.0, "cash": 13167.0, "accel": 1300.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 1, "month": "Jan", "actual": 68000.0, "quota": 50000.0, "base": 6667.0, "variable": 10200.0, "cash": 16867.0, "accel": 3400.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 2, "month": "Feb", "actual": 64000.0, "quota": 50000.0, "base": 6667.0, "variable": 9600.0, "cash": 16267.0, "accel": 3200.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 3, "month": "Mar", "actual": 72000.0, "quota": 50000.0, "base": 6667.0, "variable": 10800.0, "cash": 17467.0, "accel": 3600.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 4, "month": "Apr", "actual": 58000.0, "quota": 50000.0, "base": 6667.0, "variable": 7250.0, "cash": 13917.0, "accel": 1450.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 5, "month": "May", "actual": 62000.0, "quota": 50000.0, "base": 6667.0, "variable": 9300.0, "cash": 15967.0, "accel": 3100.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 6, "month": "Jun", "actual": 55000.0, "quota": 50000.0, "base": 6667.0, "variable": 6875.0, "cash": 13542.0, "accel": 1375.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 7, "month": "Jul", "actual": 45000.0, "quota": 50000.0, "base": 6667.0, "variable": 4500.0, "cash": 11167.0, "accel": 0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 8, "month": "Aug", "actual": 42000.0, "quota": 50000.0, "base": 6667.0, "variable": 4200.0, "cash": 10867.0, "accel": 0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 9, "month": "Sep", "actual": 50000.0, "quota": 50000.0, "base": 6667.0, "variable": 6250.0, "cash": 12917.0, "accel": 1250.0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 10, "month": "Oct", "actual": 40000.0, "quota": 50000.0, "base": 6667.0, "variable": 4000.0, "cash": 10667.0, "accel": 0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 11, "month": "Nov", "actual": 45000.0, "quota": 50000.0, "base": 6667.0, "variable": 4500.0, "cash": 11167.0, "accel": 0, "isAE": 1}, {"id": "R012", "name": "Samantha Lee", "role": "AE", "segment": "Mid-Market", "status": "Active", "mo": 12, "month": "Dec", "actual": 58000.0, "quota": 50000.0, "base": 6667.0, "variable": 7250.0, "cash": 13917.0, "accel": 1450.0, "isAE": 1}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 1, "month": "Jan", "actual": 20000.0, "quota": 15000.0, "base": 5833.0, "variable": 1440.0, "cash": 7273.0, "accel": 240.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 2, "month": "Feb", "actual": 18000.0, "quota": 15000.0, "base": 5833.0, "variable": 1296.0, "cash": 7129.0, "accel": 216.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 3, "month": "Mar", "actual": 22000.0, "quota": 15000.0, "base": 5833.0, "variable": 1584.0, "cash": 7417.0, "accel": 264.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 4, "month": "Apr", "actual": 17000.0, "quota": 15000.0, "base": 5833.0, "variable": 1224.0, "cash": 7057.0, "accel": 204.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 5, "month": "May", "actual": 16000.0, "quota": 15000.0, "base": 5833.0, "variable": 1152.0, "cash": 6985.0, "accel": 192.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 6, "month": "Jun", "actual": 18000.0, "quota": 15000.0, "base": 5833.0, "variable": 1296.0, "cash": 7129.0, "accel": 216.0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 7, "month": "Jul", "actual": 13000.0, "quota": 15000.0, "base": 5833.0, "variable": 780.0, "cash": 6613.0, "accel": 0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 8, "month": "Aug", "actual": 11000.0, "quota": 15000.0, "base": 5833.0, "variable": 660.0, "cash": 6493.0, "accel": 0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 9, "month": "Sep", "actual": 14000.0, "quota": 15000.0, "base": 5833.0, "variable": 840.0, "cash": 6673.0, "accel": 0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 10, "month": "Oct", "actual": 10000.0, "quota": 15000.0, "base": 5833.0, "variable": 600.0, "cash": 6433.0, "accel": 0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 11, "month": "Nov", "actual": 12000.0, "quota": 15000.0, "base": 5833.0, "variable": 720.0, "cash": 6553.0, "accel": 0, "isAE": 0}, {"id": "R013", "name": "Daniel Foster", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 12, "month": "Dec", "actual": 15000.0, "quota": 15000.0, "base": 5833.0, "variable": 900.0, "cash": 6733.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 1, "month": "Jan", "actual": 22000.0, "quota": 15000.0, "base": 5833.0, "variable": 1584.0, "cash": 7417.0, "accel": 264.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 2, "month": "Feb", "actual": 20000.0, "quota": 15000.0, "base": 5833.0, "variable": 1440.0, "cash": 7273.0, "accel": 240.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 3, "month": "Mar", "actual": 24000.0, "quota": 15000.0, "base": 5833.0, "variable": 1728.0, "cash": 7561.0, "accel": 288.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 4, "month": "Apr", "actual": 18000.0, "quota": 15000.0, "base": 5833.0, "variable": 1296.0, "cash": 7129.0, "accel": 216.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 5, "month": "May", "actual": 19000.0, "quota": 15000.0, "base": 5833.0, "variable": 1368.0, "cash": 7201.0, "accel": 228.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 6, "month": "Jun", "actual": 17000.0, "quota": 15000.0, "base": 5833.0, "variable": 1224.0, "cash": 7057.0, "accel": 204.0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 7, "month": "Jul", "actual": 14000.0, "quota": 15000.0, "base": 5833.0, "variable": 840.0, "cash": 6673.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 8, "month": "Aug", "actual": 13000.0, "quota": 15000.0, "base": 5833.0, "variable": 780.0, "cash": 6613.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 9, "month": "Sep", "actual": 15000.0, "quota": 15000.0, "base": 5833.0, "variable": 900.0, "cash": 6733.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 10, "month": "Oct", "actual": 12000.0, "quota": 15000.0, "base": 5833.0, "variable": 720.0, "cash": 6553.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 11, "month": "Nov", "actual": 14000.0, "quota": 15000.0, "base": 5833.0, "variable": 840.0, "cash": 6673.0, "accel": 0, "isAE": 0}, {"id": "R014", "name": "Rachel Green", "role": "CSM", "segment": "Mid-Market", "status": "Active", "mo": 12, "month": "Dec", "actual": 18000.0, "quota": 15000.0, "base": 5833.0, "variable": 1296.0, "cash": 7129.0, "accel": 216.0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 1, "month": "Jan", "actual": 20.0, "quota": 16.0, "base": 4000.0, "variable": 2136.0, "cash": 6136.0, "accel": 356.0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 2, "month": "Feb", "actual": 18.0, "quota": 16.0, "base": 4000.0, "variable": 1922.0, "cash": 5922.0, "accel": 320.0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 3, "month": "Mar", "actual": 21.0, "quota": 16.0, "base": 4000.0, "variable": 2243.0, "cash": 6243.0, "accel": 374.0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 4, "month": "Apr", "actual": 17.0, "quota": 16.0, "base": 4000.0, "variable": 1513.0, "cash": 5513.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 5, "month": "May", "actual": 18.0, "quota": 16.0, "base": 4000.0, "variable": 1922.0, "cash": 5922.0, "accel": 320.0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 6, "month": "Jun", "actual": 16.0, "quota": 16.0, "base": 4000.0, "variable": 1424.0, "cash": 5424.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 7, "month": "Jul", "actual": 13.0, "quota": 16.0, "base": 4000.0, "variable": 1157.0, "cash": 5157.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 8, "month": "Aug", "actual": 12.0, "quota": 16.0, "base": 4000.0, "variable": 1068.0, "cash": 5068.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 9, "month": "Sep", "actual": 15.0, "quota": 16.0, "base": 4000.0, "variable": 1335.0, "cash": 5335.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 10, "month": "Oct", "actual": 13.0, "quota": 16.0, "base": 4000.0, "variable": 1157.0, "cash": 5157.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 11, "month": "Nov", "actual": 14.0, "quota": 16.0, "base": 4000.0, "variable": 1246.0, "cash": 5246.0, "accel": 0, "isAE": 0}, {"id": "R016", "name": "Nina Patel", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 12, "month": "Dec", "actual": 17.0, "quota": 16.0, "base": 4000.0, "variable": 1513.0, "cash": 5513.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 1, "month": "Jan", "actual": 18.0, "quota": 16.0, "base": 4000.0, "variable": 1922.0, "cash": 5922.0, "accel": 320.0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 2, "month": "Feb", "actual": 17.0, "quota": 16.0, "base": 4000.0, "variable": 1513.0, "cash": 5513.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 3, "month": "Mar", "actual": 19.0, "quota": 16.0, "base": 4000.0, "variable": 2029.0, "cash": 6029.0, "accel": 338.0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 4, "month": "Apr", "actual": 16.0, "quota": 16.0, "base": 4000.0, "variable": 1424.0, "cash": 5424.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 5, "month": "May", "actual": 17.0, "quota": 16.0, "base": 4000.0, "variable": 1513.0, "cash": 5513.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 6, "month": "Jun", "actual": 15.0, "quota": 16.0, "base": 4000.0, "variable": 1335.0, "cash": 5335.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 7, "month": "Jul", "actual": 13.0, "quota": 16.0, "base": 4000.0, "variable": 1157.0, "cash": 5157.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 8, "month": "Aug", "actual": 12.0, "quota": 16.0, "base": 4000.0, "variable": 1068.0, "cash": 5068.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 9, "month": "Sep", "actual": 14.0, "quota": 16.0, "base": 4000.0, "variable": 1246.0, "cash": 5246.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 10, "month": "Oct", "actual": 12.0, "quota": 16.0, "base": 4000.0, "variable": 1068.0, "cash": 5068.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 11, "month": "Nov", "actual": 14.0, "quota": 16.0, "base": 4000.0, "variable": 1246.0, "cash": 5246.0, "accel": 0, "isAE": 0}, {"id": "R017", "name": "Derek Washington", "role": "SDR", "segment": "SMB", "status": "Active", "mo": 12, "month": "Dec", "actual": 16.0, "quota": 16.0, "base": 4000.0, "variable": 1424.0, "cash": 5424.0, "accel": 0, "isAE": 0}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 1, "month": "Jan", "actual": 18000.0, "quota": 25000.0, "base": 5417.0, "variable": 1800.0, "cash": 7217.0, "accel": 0, "isAE": 1}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 2, "month": "Feb", "actual": 15000.0, "quota": 25000.0, "base": 5417.0, "variable": 1500.0, "cash": 6917.0, "accel": 0, "isAE": 1}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 3, "month": "Mar", "actual": 20000.0, "quota": 25000.0, "base": 5417.0, "variable": 2000.0, "cash": 7417.0, "accel": 0, "isAE": 1}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 4, "month": "Apr", "actual": 17000.0, "quota": 25000.0, "base": 5417.0, "variable": 1700.0, "cash": 7117.0, "accel": 0, "isAE": 1}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 5, "month": "May", "actual": 15000.0, "quota": 25000.0, "base": 5417.0, "variable": 1500.0, "cash": 6917.0, "accel": 0, "isAE": 1}, {"id": "R018", "name": "Brandon Cole", "role": "AE", "segment": "SMB", "status": "Churned", "mo": 6, "month": "Jun", "actual": 14000.0, "quota": 25000.0, "base": 5417.0, "variable": 1400.0, "cash": 6817.0, "accel": 0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 7, "month": "Jul", "actual": 10000.0, "quota": 10000.0, "base": 5417.0, "variable": 1200.0, "cash": 6617.0, "accel": 200.0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 8, "month": "Aug", "actual": 17000.0, "quota": 17500.0, "base": 5417.0, "variable": 1700.0, "cash": 7117.0, "accel": 0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 9, "month": "Sep", "actual": 25000.0, "quota": 25000.0, "base": 5417.0, "variable": 3000.0, "cash": 8417.0, "accel": 500.0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 10, "month": "Oct", "actual": 24000.0, "quota": 25000.0, "base": 5417.0, "variable": 2400.0, "cash": 7817.0, "accel": 0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 11, "month": "Nov", "actual": 21000.0, "quota": 25000.0, "base": 5417.0, "variable": 2100.0, "cash": 7517.0, "accel": 0, "isAE": 1}, {"id": "R019", "name": "Stephanie Kim", "role": "AE", "segment": "SMB", "status": "Ramping", "mo": 12, "month": "Dec", "actual": 26000.0, "quota": 25000.0, "base": 5417.0, "variable": 3120.0, "cash": 8537.0, "accel": 520.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 1, "month": "Jan", "actual": 32000.0, "quota": 25000.0, "base": 5417.0, "variable": 4480.0, "cash": 9897.0, "accel": 1280.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 2, "month": "Feb", "actual": 29000.0, "quota": 25000.0, "base": 5417.0, "variable": 3480.0, "cash": 8897.0, "accel": 580.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 3, "month": "Mar", "actual": 35000.0, "quota": 25000.0, "base": 5417.0, "variable": 4900.0, "cash": 10317.0, "accel": 1400.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 4, "month": "Apr", "actual": 27000.0, "quota": 25000.0, "base": 5417.0, "variable": 3240.0, "cash": 8657.0, "accel": 540.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 5, "month": "May", "actual": 30000.0, "quota": 25000.0, "base": 5417.0, "variable": 4200.0, "cash": 9617.0, "accel": 1200.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 6, "month": "Jun", "actual": 28000.0, "quota": 25000.0, "base": 5417.0, "variable": 3360.0, "cash": 8777.0, "accel": 560.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 7, "month": "Jul", "actual": 22000.0, "quota": 25000.0, "base": 5417.0, "variable": 2200.0, "cash": 7617.0, "accel": 0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 8, "month": "Aug", "actual": 20000.0, "quota": 25000.0, "base": 5417.0, "variable": 2000.0, "cash": 7417.0, "accel": 0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 9, "month": "Sep", "actual": 25000.0, "quota": 25000.0, "base": 5417.0, "variable": 3000.0, "cash": 8417.0, "accel": 500.0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 10, "month": "Oct", "actual": 19000.0, "quota": 25000.0, "base": 5417.0, "variable": 1900.0, "cash": 7317.0, "accel": 0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 11, "month": "Nov", "actual": 22000.0, "quota": 25000.0, "base": 5417.0, "variable": 2200.0, "cash": 7617.0, "accel": 0, "isAE": 1}, {"id": "R020", "name": "Amy Chen", "role": "AE", "segment": "SMB", "status": "Active", "mo": 12, "month": "Dec", "actual": 28000.0, "quota": 25000.0, "base": 5417.0, "variable": 3360.0, "cash": 8777.0, "accel": 560.0, "isAE": 1}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 1, "month": "Jan", "actual": 7000.0, "quota": 5000.0, "base": 5000.0, "variable": 483.0, "cash": 5483.0, "accel": 63.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 2, "month": "Feb", "actual": 6000.0, "quota": 5000.0, "base": 5000.0, "variable": 414.0, "cash": 5414.0, "accel": 54.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 3, "month": "Mar", "actual": 8000.0, "quota": 5000.0, "base": 5000.0, "variable": 552.0, "cash": 5552.0, "accel": 72.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 4, "month": "Apr", "actual": 6000.0, "quota": 5000.0, "base": 5000.0, "variable": 414.0, "cash": 5414.0, "accel": 54.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 5, "month": "May", "actual": 5500.0, "quota": 5000.0, "base": 5000.0, "variable": 380.0, "cash": 5380.0, "accel": 50.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 6, "month": "Jun", "actual": 6000.0, "quota": 5000.0, "base": 5000.0, "variable": 414.0, "cash": 5414.0, "accel": 54.0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 7, "month": "Jul", "actual": 4500.0, "quota": 5000.0, "base": 5000.0, "variable": 270.0, "cash": 5270.0, "accel": 0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 8, "month": "Aug", "actual": 4000.0, "quota": 5000.0, "base": 5000.0, "variable": 240.0, "cash": 5240.0, "accel": 0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 9, "month": "Sep", "actual": 4500.0, "quota": 5000.0, "base": 5000.0, "variable": 270.0, "cash": 5270.0, "accel": 0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 10, "month": "Oct", "actual": 3500.0, "quota": 5000.0, "base": 5000.0, "variable": 210.0, "cash": 5210.0, "accel": 0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 11, "month": "Nov", "actual": 4000.0, "quota": 5000.0, "base": 5000.0, "variable": 240.0, "cash": 5240.0, "accel": 0, "isAE": 0}, {"id": "R021", "name": "Jennifer Walsh", "role": "CSM", "segment": "SMB", "status": "Active", "mo": 12, "month": "Dec", "actual": 5000.0, "quota": 5000.0, "base": 5000.0, "variable": 300.0, "cash": 5300.0, "accel": 0, "isAE": 0}];
+const B='#1B4F8A', T='#5ECBC8', A='#F5A623', C='#FF977E', G='#F0F0F0';
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const SEGS=['Enterprise','Mid-Market','SMB'];
+
+function fmt(n){
+  if(n>=1000000) return '$'+(n/1000000).toFixed(2)+'M';
+  if(n>=1000) return '$'+(n/1000).toFixed(0)+'K';
+  return '$'+Math.round(n);
+}
+
+function filter(){
+  const seg=document.getElementById('f-seg').value;
+  const role=document.getElementById('f-role').value;
+  const status=document.getElementById('f-status').value;
+  const qtr=document.getElementById('f-qtr').value;
+  const qMos=qtr?qtr.split(',').map(Number):null;
+  return RAW.filter(r=>
+    (!seg||r.segment===seg)&&
+    (!role||r.role===role)&&
+    (!status||r.status===status)&&
+    (!qMos||qMos.includes(r.mo))
+  );
+}
+
+const charts={};
+function mkChart(id,cfg){
+  if(charts[id]) charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id),cfg);
+}
+
+function update(){
+  const d=filter();
+  const ae=d.filter(r=>r.role==='AE');
+
+  // KPI calculations
+  const totalARR=ae.reduce((s,r)=>s+r.actual,0);
+  const totalComp=d.reduce((s,r)=>s+r.cash,0);
+  const totalAccel=d.reduce((s,r)=>s+r.accel,0);
+  const totalQuota=ae.reduce((s,r)=>s+r.quota,0);
+  const attPct=totalQuota>0?totalARR/totalQuota*100:0;
+  const compEff=totalComp>0?totalARR/totalComp:0;
+  const accelROI=totalAccel>0?totalARR/totalAccel:0;
+
+  // Quarterly ARR for sparklines
+  const qArr=[0,0,0,0];
+  const qComp=[0,0,0,0];
+  const qAccel=[0,0,0,0];
+  const qAtt=[0,0,0,0];
+  const qQuota=[0,0,0,0];
+  ae.forEach(r=>{
+    const q=Math.ceil(r.mo/3)-1;
+    if(q>=0&&q<4){qArr[q]+=r.actual;qQuota[q]+=r.quota;}
+  });
+  d.forEach(r=>{
+    const q=Math.ceil(r.mo/3)-1;
+    if(q>=0&&q<4){qComp[q]+=r.cash;qAccel[q]+=r.accel;}
+  });
+  for(let i=0;i<4;i++) qAtt[i]=qQuota[i]>0?qArr[i]/qQuota[i]*100:0;
+
+  // Update KPI text
+  document.getElementById('kv-arr').textContent=fmt(totalARR);
+  document.getElementById('ks-arr').textContent=attPct.toFixed(1)+'% vs Quota';
+  document.getElementById('kv-comp').textContent=fmt(totalComp);
+  document.getElementById('ks-comp').textContent=(totalARR>0?(totalComp/totalARR*100).toFixed(0)+'% Comp/ARR':'--');
+  document.getElementById('kv-accel').textContent=fmt(totalAccel);
+  document.getElementById('ks-accel').textContent=accelROI>0?'$'+accelROI.toFixed(1)+' ARR per $1':'--';
+  document.getElementById('kv-att').textContent=attPct.toFixed(1)+'%';
+  document.getElementById('ks-att').textContent=attPct>=100?'Above quota':'Below quota';
+
+  // Update gauges
+  const g1pct=Math.min(attPct/110*116,116);
+  document.getElementById('g1-arc').setAttribute('stroke-dasharray',g1pct+' '+(116-g1pct));
+  document.getElementById('g1-val').textContent=attPct.toFixed(1)+'%';
+  document.getElementById('g1-sig').textContent=attPct>=100?'Exceeded by '+(attPct-100).toFixed(1)+'%':'Below target';
+
+  const g2v=Math.min(compEff,5);
+  const g2pct=g2v/5*116;
+  document.getElementById('g2-arc').setAttribute('stroke-dasharray',g2pct+' '+(116-g2pct));
+  document.getElementById('g2-val').textContent='$'+compEff.toFixed(2);
+  document.getElementById('g2-sig').textContent='ARR per $1 comp';
+
+  const g3v=Math.min(accelROI,40);
+  const g3pct=g3v/40*116;
+  document.getElementById('g3-arc').setAttribute('stroke-dasharray',g3pct+' '+(116-g3pct));
+  document.getElementById('g3-val').textContent=accelROI>0?'$'+accelROI.toFixed(0):'--';
+  document.getElementById('g3-sig').textContent=accelROI>0?'ARR per $1 accel':'No accel data';
+
+  // Sparklines
+  const spOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{display:false}}};
+  mkChart('kpi1',{type:'bar',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{data:qArr.map(v=>Math.round(v/1000)),backgroundColor:[B,B,'rgba(27,79,138,0.45)','rgba(27,79,138,0.3)'],borderRadius:3,borderSkipped:false}]},options:spOpts});
+  mkChart('kpi2',{type:'bar',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{data:qComp.map(v=>Math.round(v/1000)),backgroundColor:[A,A,'rgba(245,166,35,0.45)','rgba(245,166,35,0.3)'],borderRadius:3,borderSkipped:false}]},options:spOpts});
+  mkChart('kpi3',{type:'bar',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{data:qAccel.map(v=>Math.round(v/1000)),backgroundColor:[T,T,'rgba(94,203,200,0.45)','rgba(94,203,200,0.3)'],borderRadius:3,borderSkipped:false}]},options:spOpts});
+  mkChart('kpi4',{type:'bar',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{data:qAtt.map(v=>+v.toFixed(1)),backgroundColor:[B,B,'rgba(27,79,138,0.45)','rgba(27,79,138,0.3)'],borderRadius:3,borderSkipped:false}]},options:{...spOpts,scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{display:false}}}});
+
+  // Monthly ARR trend
+  const monthly=new Array(12).fill(0);
+  ae.forEach(r=>{if(r.mo>=1&&r.mo<=12)monthly[r.mo-1]+=r.actual;});
+  mkChart('trend',{type:'line',data:{labels:MONTHS,datasets:[{data:monthly.map(v=>Math.round(v/1000)),borderColor:B,borderWidth:2.5,pointBackgroundColor:monthly.map((_,i)=>{const v=monthly[i]; return v===Math.min(...monthly.filter(x=>x>0))?C:B;}),pointRadius:4,fill:true,backgroundColor:'rgba(27,79,138,0.08)',tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8},autoSkip:false,maxRotation:0}},y:{grid:{color:G},ticks:{font:{size:8},callback:v=>'$'+v+'K'},min:0}}}});
+
+  // Comp breakdown
+  const totBase=d.reduce((s,r)=>s+r.base,0);
+  const totVar=d.reduce((s,r)=>s+r.variable,0);
+  const totAccelOnly=d.reduce((s,r)=>s+r.accel,0);
+  mkChart('breakdown',{type:'bar',data:{labels:['Base','Variable','Accel.'],datasets:[{data:[Math.round(totBase/1000),Math.round((totVar-totAccelOnly)/1000),Math.round(totAccelOnly/1000)],backgroundColor:[B,T,'rgba(94,203,200,0.6)'],borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{grid:{color:G},ticks:{font:{size:8},callback:v=>'$'+v+'K'}}}}});
+
+  // ARR vs Comp by segment
+  const segARR=SEGS.map(s=>Math.round(ae.filter(r=>r.segment===s).reduce((a,r)=>a+r.actual,0)/1000));
+  const segComp=SEGS.map(s=>Math.round(d.filter(r=>r.segment===s).reduce((a,r)=>a+r.cash,0)/1000));
+  mkChart('segchart',{type:'bar',data:{labels:SEGS,datasets:[{label:'ARR',data:segARR,backgroundColor:B,borderRadius:3},{label:'Comp',data:segComp,backgroundColor:'rgba(245,166,35,0.75)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:9},boxWidth:10,padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{grid:{color:G},ticks:{font:{size:8},callback:v=>'$'+v+'K'}}}}});
+
+  // Attainment bands
+  const repMap={};
+  ae.forEach(r=>{
+    if(!repMap[r.id]){repMap[r.id]={actual:0,quota:0};}
+    repMap[r.id].actual+=r.actual;
+    repMap[r.id].quota+=r.quota;
+  });
+  const atts=Object.values(repMap).map(r=>r.quota>0?r.actual/r.quota*100:0);
+  const bCounts=[atts.filter(a=>a<80).length,atts.filter(a=>a>=80&&a<100).length,atts.filter(a=>a>=100&&a<120).length,atts.filter(a=>a>=120).length];
+  mkChart('bands',{type:'bar',data:{labels:['<80%','80-99%','100-119%','120%+'],datasets:[{data:bCounts,backgroundColor:[C,A,B,T],borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{grid:{color:G},ticks:{font:{size:8},stepSize:1}}}}});
+
+  // Accel ROI by segment
+  const segAccelROI=SEGS.map(s=>{
+    const sae=ae.filter(r=>r.segment===s);
+    const sAll=d.filter(r=>r.segment===s);
+    const sArr=sae.reduce((a,r)=>a+r.actual,0);
+    const sAccel=sAll.reduce((a,r)=>a+r.accel,0);
+    return sAccel>0?+(sArr/sAccel).toFixed(2):0;
+  });
+  const maxROI=Math.max(...segAccelROI);
+  mkChart('accelroi',{type:'bar',data:{labels:SEGS,datasets:[{data:segAccelROI,backgroundColor:segAccelROI.map(v=>v===maxROI?T:B),borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8}}},y:{grid:{color:G},ticks:{font:{size:8},callback:v=>'$'+v}}}}});
+
+  // Rep bars
+  const repArr=Object.entries(repMap).map(([id,v])=>{
+    const row=ae.find(r=>r.id===id);
+    return {name:row?row.name:id,att:v.quota>0?v.actual/v.quota*100:0};
+  }).sort((a,b)=>b.att-a.att);
+  const repColors=repArr.map(r=>r.att>=120?T:r.att>=100?B:r.att>=80?A:C);
+  mkChart('repbars',{type:'bar',data:{labels:repArr.map(r=>r.name),datasets:[{data:repArr.map(r=>+r.att.toFixed(1)),backgroundColor:repColors,borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},annotation:{annotations:{quota:{type:'line',xMin:100,xMax:100,borderColor:A,borderWidth:1.5,borderDash:[4,4]}}}},scales:{x:{grid:{color:G},ticks:{font:{size:8},callback:v=>v+'%'},min:0,max:150},y:{grid:{display:false},ticks:{font:{size:8}}}}}});
+
+  // Headcount donut
+  const hcActive=new Set(d.filter(r=>r.status==='Active').map(r=>r.id)).size;
+  const hcRamp=new Set(d.filter(r=>r.status==='Ramping').map(r=>r.id)).size;
+  const hcChurn=new Set(d.filter(r=>r.status==='Churned').map(r=>r.id)).size;
+  mkChart('donut',{type:'doughnut',data:{labels:['Active ('+hcActive+')','Ramping ('+hcRamp+')','Churned ('+hcChurn+')'],datasets:[{data:[hcActive,hcRamp,hcChurn],backgroundColor:[B,T,C],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:true,position:'bottom',labels:{font:{size:9},boxWidth:10,padding:8}}}}});
+}
+
+['f-seg','f-role','f-status','f-qtr'].forEach(id=>document.getElementById(id).addEventListener('change',update));
+update();
+</script>
+</body>
+</html>
