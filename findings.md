@@ -48,5 +48,13 @@ One AE departure and a mid-year PIP left the SMB segment
 shorthanded at the worst time. The replacement joined in July 
 and ramped through H2, but the segment never fully recovered. 
 SMB quotas and territory coverage should be reviewed before 
-adding headcount — more reps in an undertooled segment does 
+adding headcount; more reps in an undertooled segment do 
 not solve the underlying problem.
+
+## SQL Analysis Confirms the Excel Story
+
+Four SQL queries run against the exported SQLite database validated and extended the findings above. Accelerator ROI by segment confirmed that SMB returned $37.63 in ARR per dollar of accelerator spend, compared to $27.65 for Enterprise and Mid-Market. The churn cost query identified the SMB AE departure as the most expensive attrition event, leaving $51,000 in uncovered quota over six months. Comp efficiency by segment showed Enterprise generating $4.47 in ARR per dollar of total comp, with SMB trailing at $2.81 — consistent with the ramp disruption and coverage gaps that hit the segment in H2. The attainment distribution query confirmed that Enterprise quotas are well-calibrated, with 62.5% of rep-months at or above 100% attainment. SMB showed the greatest volatility, suggesting a quota-setting issue rather than a talent issue.
+
+## Dashboard Findings
+
+The interactive dashboard surfaces the same conclusions in a format built for stakeholders who will never open the Excel file or prefer a more appealing interface. The monthly ARR trend makes the H2 softening pattern impossible to miss. The attainment band distribution shows at a glance that the middle of the team is performing. Additionally, the concentration problem sits at the top, not the bottom. The compensation cost waterfall breaks down exactly where every dollar went: base, variable, accelerators, and the net impact of churn. Filtering by segment reveals that the Enterprise story is strong, Mid-Market is steady, and SMB needs structural attention before 2026 headcount decisions are made.
