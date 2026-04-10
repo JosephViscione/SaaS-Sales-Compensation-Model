@@ -1,8 +1,8 @@
 # Veltora Inc. — Sales Compensation Model · FY 2025
 
-**Tools:** Microsoft Excel, SQL, Python (Plotly), HTML, Kaggle
+**Tools:** Microsoft Excel · MySQL Workbench · Python (Plotly) · HTML · Kaggle
 
-**Skills:** VLOOKUP · SUMPRODUCT · Nested IF · Array formulas · Data validation · Conditional formatting · SQLite · Interactive data visualization  
+**Skills:** VLOOKUP · SUMPRODUCT · Nested IF · Array formulas · Data validation · Conditional formatting · MySQL · Interactive data visualization  
 **Data:** Fictional company and dataset based on research conducted on past Series B SaaS companies — rep churn rates, ramp schedules, seasonal patterns, and Accelerators reflect real benchmarks from that stage.
 
 ## The Business Problem
@@ -88,17 +88,17 @@ The top 20% of earners took a sizeable share of variable compensation. That can 
 
 ## SQL Analysis
 
-The prior Excel model calculates everything, but some questions require a different angle. The underlying data was exported to a SQLite database and analyzed using four SQL queries, each targeting a specific business question relevant to 2026 planning.
+The Excel model calculates everything, but some questions require a different angle. The underlying data was exported to CSV, imported into MySQL Workbench, and analyzed using four queries, each targeting a specific business question relevant to 2026 planning.
 
-**01_accelerator_roi.sql** queries the return on accelerator spend by segment. For every dollar Veltora paid out in accelerators, SMB returned $37.63 in ARR, while Enterprise and Mid-Market returned nearly identical $27.65. The accelerator structure was funded across all three segments.
+**Query 1 — Accelerator ROI by Segment:** For every dollar Veltora paid out in accelerators, SMB returned $37.63 in ARR, while Enterprise and Mid-Market returned nearly identical figures around $27.65. The accelerator structure was funded across all three segments.
 
-**02_rep_churn_cost.sql** quantifies the true cost of mid-year attrition. Three reps left during the year, and the salary savings look fine on paper, but the quota gap tells a different story. The SMB AE departure alone left $51,000 in uncovered territory over six months, revenue that simply wasn't chased.
+**Query 2 — True Cost of Rep Churn:** Three reps left during the year, and the salary savings look fine on paper, but the quota gap tells a different story. The SMB AE departure alone left $51,000 in uncovered territory over six months — revenue that simply wasn't chased.
 
-**03_comp_efficiency.sql** measures ARR generated per dollar of total comp spend by segment. Enterprise led at $4.47 per dollar, Mid-Market came in at $3.99, and SMB trailed at $2.81, consistent with the attrition and ramp disruption that hit the segment hardest in H2.
+**Query 3 — Comp Efficiency by Segment:** Enterprise led at $4.47 in ARR per dollar of total comp spend, Mid-Market came in at $3.99, and SMB trailed at $2.81, consistent with the attrition and ramp disruption that hit the segment hardest in H2.
 
-**04_attainment_distribution.sql** buckets every rep-month into attainment bands rather than looking at individual performance in isolation. Enterprise AEs spent 37.5% of the months in the 100-119% range and 25% above 120%, with only 8.3% below 80%. That is a well-calibrated quota.
+**Query 4 — Attainment Distribution:** Enterprise AEs spent 37.5% of months in the 100–119% band and 25% above 120%, with only 8.3% below 80%. That is a well-calibrated quota. The distribution across Mid-Market and SMB shows more volatility, consistent with the roster disruption both segments experienced.
 
-The SQLite database and raw CSVs are included in the repo. All four queries can be run directly in DB Browser for SQLite.
+All four queries are in `sql/veltora_queries.sql` and can be run directly in MySQL Workbench against the exported CSVs.
 
 ## Interactive Dashboard
 
@@ -122,8 +122,20 @@ All four filters — Segment, Role, Status, and Quarter — are wired to the rea
 ### Team Rollup
 ![Team Rollup](screenshots/team_rollup.png)
 
+### SQL — Accelerator ROI by Segment
+![Query 1](screenshots/Query_1.png)
+
+### SQL — True Cost of Rep Churn
+![Query 2](screenshots/Query_2.png)
+
+### SQL — Comp Efficiency by Segment
+![Query 3](screenshots/Query_3.png)
+
+### SQL — Attainment Distribution by Role and Segment
+![Query 4](screenshots/Query_4.png)
+
 ## How to Use This File
 
-Download `Veltora_SalesComp_FY2025.xlsx` and open it in Microsoft Excel. Google Sheets is not recommended, as some formulas may not render correctly.
+Download `Veltora_Sales_Compensation_2025_plan.xlsx` and open it in Microsoft Excel. Google Sheets is not recommended, as some formulas may not render correctly.
 
 Start with `assumptions` for context, `plan_catalog` to see the comp structure, and `dashboard` for the executive summary. From there, `commission_calc` shows every rep, every month, and every formula, all fully visible and traceable.
